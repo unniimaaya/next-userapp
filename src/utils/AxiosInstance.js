@@ -1,14 +1,19 @@
 import axios from "axios";
 
+ const NEXT_PUBLIC_BASE_URL="https://interview.enfono.com/api_bcc"
+
 const token = JSON.parse(localStorage.getItem("user"));
 console.log("Access", token?.access);
 const AxiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-    // headers: {
-    //     allowCredentials: true,
-    //     "Content-Type": "application/json",
-    //   },
+    baseURL: NEXT_PUBLIC_BASE_URL,
+
   });
+  
+ export const LoginInstance = axios.create({
+    baseURL: NEXT_PUBLIC_BASE_URL,
+
+  });
+
 
 
 
@@ -32,3 +37,4 @@ const AxiosInstance = axios.create({
 
 
   export default AxiosInstance;
+

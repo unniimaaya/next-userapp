@@ -8,7 +8,7 @@ import {
   Link,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import AxiosInstance from "@/utils/AxiosInstance";
+import AxiosInstance, { LoginInstance } from "@/utils/AxiosInstance";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 // import { useRouter } from 'next/router'
@@ -38,12 +38,13 @@ const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
+  const BASE_URL="https://interview.enfono.com/api_bcc"
 
   const SubmitData = (e) => {
     e.preventDefault();
     if (userName && password) {
-      axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login/`,
+      LoginInstance.post(
+        `${BASE_URL}/api/auth/login/`,
         {
           username: userName,
           password: password,
