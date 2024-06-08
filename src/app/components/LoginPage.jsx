@@ -60,7 +60,8 @@ const Login = () => {
               "AccessToken",
               JSON.stringify(res?.data?.data?.token?.access)
             );
-            router.push("/dashboard");
+            window.location.href="/dashboard"
+            // router.push("/dashboard");
           }
        
         })
