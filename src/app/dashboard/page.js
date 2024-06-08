@@ -1,26 +1,25 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Button } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    display: 'flex',
-    justifyContent: 'flex-end', 
-    alignItems: 'flex-start', 
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
   },
 }));
 const Dashboard = () => {
   const classes = useStyles();
   const router = useRouter();
   const [data, setData] = useState("");
-  const BASE_URL="https://interview.enfono.com/api_bcc"
+  const BASE_URL = "https://interview.enfono.com/api_bcc";
 
   const getAllData = async () => {
     try {
@@ -38,20 +37,17 @@ const Dashboard = () => {
       console.log("error to fetching data", err);
     }
   };
-// logout
-const Logout= ()=>{
-  localStorage.removeItem("AccessToken");
-  router.push("/login")
-}
-
-
-
+  // logout
+  const Logout = () => {
+    localStorage.removeItem("AccessToken");
+    router.push("/login");
+  };
 
   useEffect(() => {
     getAllData();
   }, []);
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "id", headerName: "Sl.No", width: 100 },
     {
       field: "title",
       headerName: "Title",
@@ -71,8 +67,22 @@ const Logout= ()=>{
           <img
             src={imageUrl}
             alt="Image"
-            style={{ width: "100px", height: "100px" }}
+            style={{  height: "150px" }}
           />
+        );
+      },
+    },
+    {
+      field: "is_active",
+      headerName: "Status",
+      width: 110,
+      editable: false,
+      renderCell: (params) => {
+        const status = params?.value ? "active" : "inactive";
+        return (
+          <>
+            <Chip label={status} variant="outlined" />
+          </>
         );
       },
     },
@@ -82,24 +92,30 @@ const Logout= ()=>{
       headerName: "Order",
       type: "number",
       width: 110,
-      editable: true,
+      editable: false,
     },
-
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-       <Box className={classes.container}>
-       <Button variant="contained" onClick={Logout} >Logout </Button>
+    <Box sx={{  width: "100%" }}>
+      <Box className={classes.container}>
+        <Button variant="contained" onClick={Logout}>
+          Logout{" "}
+        </Button>
       </Box>
+      <div style={{paddingTop:"15px" }} >
       <DataGrid
+      
+        sx={{
+          "& .MuiDataGrid-columnHeaders": { fontWeight: 700, fontSize: 20 },
+        }}
         rows={data}
         columns={columns}
-
+       hideFooter={true}
+       rowHeight={150}
       />
-     
+      </div>
     </Box>
-
   );
 };
 
